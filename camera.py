@@ -1,3 +1,5 @@
+from os import system
+
 class Camera:
     def __init__():
         self.camera_x = 60
