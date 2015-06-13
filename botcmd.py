@@ -10,6 +10,12 @@ class BotCMD(cmd.Cmd):
     def do_greet(self, line):
         print "hello"
 
+    def do_order(self,line):
+        """Order command to ai"""
+        reps = AI.act(line)
+        for r in reps:
+            print r
+
     def do_init(self,line):
         """Initialize devices"""
         print "Initialization Done"

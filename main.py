@@ -1,5 +1,5 @@
 #!/usr/bin/env python2
-from bot import *
+from botcmd import *
 from voice import *
 
 import __builtin__
