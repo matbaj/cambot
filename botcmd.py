@@ -29,3 +29,10 @@ class BotCMD(cmd.Cmd):
     def do_quit(self,line):
         """Quiting application"""
         return True
+
+    def emptyline(self):
+        """Do not repeat last line"""
+        pass
+
+    def default(self, line):
+        self.do_order(line)
