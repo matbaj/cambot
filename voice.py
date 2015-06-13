@@ -2,7 +2,7 @@ import pywapi
 import subprocess
 import string
 
-class VoiceResponse(object):
+class AIController:
 
 	def __init__(self, previous_orders, anger_meter):
 		self.previous_orders = previous_orders
@@ -109,6 +109,7 @@ class VoiceResponse(object):
 	def greet(self, order):
 		self.call ('"Hello!"')
 
+class VoiceResponse:
 	def call(self, text):
 		subprocess.call('espeak '+text, shell=True)
 
