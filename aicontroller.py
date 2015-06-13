@@ -30,12 +30,6 @@ class AIController:
 		if "turn off" in order:
 			rep.append(self.turn_off())
 
-		if "hide console" in order:
-			rep.append(self.hide_console())
-
-		if "show_console" in order:
-			rep.append(self.show_console())
-
 		return(rep)
 	def clock(self):
 		now = datetime.datetime.now()
@@ -100,14 +94,6 @@ class AIController:
 	def turn_off(self):
 		return('"turning off"')
 		#turn off
-
-	def show_console(self):
-		#we show console here
-		return('"I will now show you console"')
-
-	def hide_console(self):
-		#we hide console
-		return('"I will now hide console"')
 
 	def relation(self, order):
 		end = order.find('love')
