@@ -90,8 +90,8 @@ class AIController:
 			weather_respone = ('It is ' + text + ', Temperature: ' + weather + ' celsius degrees in ' + city)
 			return(weather_respone)
 		except:
-                        e = sys.exc_info()[0]
-                        print "Error: %s" % e 
+			e = sys.exc_info()[0]
+			print "Error: %s" % e 
 			print "Weather occurs some problems"
 			return("NO!")
 
