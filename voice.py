@@ -118,11 +118,8 @@ class AIController:
 		return ('"Hello!"')
 
 class VoiceResponse:
-	def call(self, text):
+	def say(self, text):
 		subprocess.call('espeak '+text, shell=True)
 
 
-#resp = response(0,0)
-	
-#resp.act("check weather in city Wroclaw")
 
