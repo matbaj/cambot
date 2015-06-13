@@ -15,24 +15,24 @@ class AIController:
 			rep.append(self.relation(order))
 
 		if "hello" in order: 
-			self.greet(order)
+			rep.append(self.greet(order))
 
 		# check if there is do not before track 
 		if "track faces" in order :
-			self.track(order)
+			rep.append(self.track(order))
 
 		# check between city : please
 		if "check weather" in order:
-			self.weather(order)
+			rep.append(self.weather(order))
 
 		if "turn off" in order:
-			self.turn_off()
+			rep.append(self.turn_off())
 
 		if "hide console" in order:
-			self.hide_console()
+			rep.append(self.hide_console())
 
 		if "show_console" in order:
-			self.show_console()
+			rep.append(self.show_console())
 
 		return(rep)
 
@@ -68,15 +68,22 @@ class AIController:
 					self.anger_meter -= 1
 
 	def weather(self, order):
-		start = order.find('city') + 5
-		end = order.find('please', start)
-		city = order[start:end]
+		words = order.split(" ")
+                city_index = words.index("in") + 1
+                if words[city_index] == "city":
+                    city_index+=1
+                if words[-1] == "please":
+                    city_arr = words[city_index:-1]
+                    #Add points for please
+                else:
+                    city_arr = words[city_index:]
+                city = " ".join(city_arr)
 		loc_id = pywapi.get_location_ids(city)
 		city_id = self.get_city_id(loc_id)
 		all_info = pywapi.get_weather_from_weather_com( city_id , units = 'metric' )
 		weather = all_info['current_conditions']['temperature'] 
-		weather_respone = ('Temperature:' + weather + '"celsius degrees in"' + city)
-   		return (weather_respone)
+		weather_respone = ('Temperature: ' + weather + ' celsius degrees in ' + city)
+   		return(weather_respone)
 
 	def turn_off(self):
 		return('"turning off"')
