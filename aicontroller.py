@@ -9,7 +9,7 @@ class AIController:
 
 
 	def act(self, order):
-				rep = []
+		rep = []
 		if "love you" in order:
 			rep.append(self.relation(order))
 
