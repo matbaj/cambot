@@ -123,7 +123,7 @@ class AIController:
 
 class VoiceResponse:
 	def say(self, text):
-		subprocess.call('espeak '+text, shell=True)
+		subprocess.call("espeak \"%s\"" %(text), shell=True)
 
 
 
