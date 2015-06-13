@@ -39,7 +39,7 @@ class AIController:
 		return(rep)
 	def clock(self):
 		now = datetime.datetime.now()
-		now_str = ('hour: ' + now.hour + 'minute: ' + now.minut)
+		now_str = ('hour: ' + str(now.hour) + ' minute: ' + str(now.minute))
 		return(now_str)
 
 	def track(self, order):
