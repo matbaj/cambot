@@ -6,6 +6,7 @@ class Camera:
         self.camera_y = 80
         set_x(camera_x)
         set_y(camera_y)
+        self.face_tracking = 0
 
     #controling camera
 
@@ -25,4 +26,6 @@ class Camera:
         self.camera_y += int(val)
         self.set_x(self.camera_y)
 
+    def set_tracking(value):
+        self.face_tracking = int(value)
 
