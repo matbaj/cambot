@@ -9,7 +9,7 @@ class AIController:
 
 
 	def act(self, order):
-                rep = []
+				rep = []
 		if "love you" in order:
 			rep.append(self.relation(order))
 
@@ -72,10 +72,10 @@ class AIController:
 	def weather(self, order):
 		words = order.split(" ")
 		try:
-                    city_index = words.index("in") + 1
-                except ValueError:
-                    print "Wrong syntax"
-                    return("No!")
+			city_index = words.index("in") + 1
+		except ValueError:
+			print "Wrong syntax"
+			return("No!")
 		if words[city_index] == "city":
 			city_index+=1
 		if words[-1] == "please":
@@ -86,25 +86,25 @@ class AIController:
 		city = " ".join(city_arr)
 		loc_id = pywapi.get_location_ids(city)
 		city_id = self.get_city_id(loc_id)
-                try:
-		    all_info = pywapi.get_weather_from_weather_com( city_id , units = 'metric' )
-    		    weather = all_info['current_conditions']['temperature'] 
-		    weather_respone = ('Temperature: ' + weather + ' celsius degrees in ' + city)
-   		    return(weather_respone)
-                except:
-                    print "Weather occurs some problems"
-                    return("NO!")
+		try:
+			all_info = pywapi.get_weather_from_weather_com( city_id , units = 'metric' )
+			weather = all_info['current_conditions']['temperature'] 
+			weather_respone = ('Temperature: ' + weather + ' celsius degrees in ' + city)
+			return(weather_respone)
+		except:
+			print "Weather occurs some problems"
+			return("NO!")
 
 	def turn_off(self):
 		return('"turning off"')
-    	#turn off
+		#turn off
 
 	def show_console(self):
-    	#we show console here
+		#we show console here
 		return('"I will now show you console"')
 
 	def hide_console(self):
-    	#we hide console
+		#we hide console
 		return('"I will now hide console"')
 
 	def relation(self, order):
