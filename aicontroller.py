@@ -74,6 +74,7 @@ class AIController:
 		try:
 			city_index = words.index("in") + 1
 		except ValueError:
+			add_anger()
 			print "Wrong syntax"
 			return("No!")
 		if words[city_index] == "city":
@@ -87,6 +88,7 @@ class AIController:
 		loc_id = pywapi.get_location_ids(city)
 		city_id = self.get_city_id(loc_id)
 		try:
+			add_please()
 			all_info = pywapi.get_weather_from_weather_com( city_id , units = 'metric' )
 			weather = all_info['current_conditions']['temperature'] 
 			weather_respone = ('Temperature: ' + weather + ' celsius degrees in ' + city)
@@ -113,11 +115,13 @@ class AIController:
 			if self.anger_meter > 7:
 				return("hehehe")
 			else:
+				add_anger()
 				return("I am sad")
 		else:
 			if self.anger_meter > 7:
 				return("NO")
 			else:
+				add_please()
 				return("I too love myself")
 
 	def get_city_id(self, d):
