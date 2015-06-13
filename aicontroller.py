@@ -82,10 +82,14 @@ class AIController:
 		city = " ".join(city_arr)
 		loc_id = pywapi.get_location_ids(city)
 		city_id = self.get_city_id(loc_id)
-		all_info = pywapi.get_weather_from_weather_com( city_id , units = 'metric' )
-		weather = all_info['current_conditions']['temperature'] 
-		weather_respone = ('Temperature: ' + weather + ' celsius degrees in ' + city)
-   		return(weather_respone)
+                try:
+		    all_info = pywapi.get_weather_from_weather_com( city_id , units = 'metric' )
+    		    weather = all_info['current_conditions']['temperature'] 
+		    weather_respone = ('Temperature: ' + weather + ' celsius degrees in ' + city)
+   		    return(weather_respone)
+                except:
+                    print "Weather occurs some problems"
+                    return("NO!")
 
 	def turn_off(self):
 		return('"turning off"')
