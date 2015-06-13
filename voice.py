@@ -40,44 +40,40 @@ class AIController:
 		before = order.find('track')
 		if "do not" in order[:before]:
 			if self.previous_orders == 0:
+				self.add_anger()
 				return ('"But I am not tracking you, master"')
-				if self.anger_meter != 10:
-					self.anger_meter += 1
 			else:
-				if self.anger_meter == 10:
+				self.previous_orders = 0
+				self.add_please()
+				if self.anger_meter > 7:
 					return ('"NO!"')
 				else :
 					return ('"As you wish sire, I will stop tracking your face"')
 					#here we stop tracking
-				self.previous_orders = 0
-				if self.anger_meter != 0:
-					self.anger_meter -= 1
 		else :
 			if self.previous_orders == 1:
+				self.add_anger()
 				return('"I am already tracking you"')
-				if self.anger_meter != 10:
-					self.anger_meter += 1
 			else:
+				self.previous_orders = 1
+				self.add_please()
 				if self.anger_meter == 10:
 					return ('"NO!"')
 				else :
 					return('"Yes master, I will track you"')
 					#we begin tracking
-				self.previous_orders = 1
-				if self.anger_meter != 0:
-					self.anger_meter -= 1
 
 	def weather(self, order):
 		words = order.split(" ")
-                city_index = words.index("in") + 1
-                if words[city_index] == "city":
-                    city_index+=1
-                if words[-1] == "please":
-                    city_arr = words[city_index:-1]
-                    #Add points for please
-                else:
-                    city_arr = words[city_index:]
-                city = " ".join(city_arr)
+		city_index = words.index("in") + 1
+		if words[city_index] == "city":
+			city_index+=1
+		if words[-1] == "please":
+			city_arr = words[city_index:-1]
+			self.add_please()
+		else:
+			city_arr = words[city_index:]
+		city = " ".join(city_arr)
 		loc_id = pywapi.get_location_ids(city)
 		city_id = self.get_city_id(loc_id)
 		all_info = pywapi.get_weather_from_weather_com( city_id , units = 'metric' )
@@ -116,6 +112,14 @@ class AIController:
 
 	def greet(self, order):
 		return ('"Hello!"')
+
+	def add_please(self):
+		if self.anger_meter != 0:
+			self.anger_meter -= 1
+
+	def add_anger(self):
+		if self.anger_meter != 10:
+			self.anger_meter += 1
 
 class VoiceResponse:
 	def call(self, text):
