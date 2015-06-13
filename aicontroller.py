@@ -54,8 +54,8 @@ class AIController:
 				if self.anger_meter > 7:
 					return ('"NO!"')
 				else :
+					camera.set_tracking(0)
 					return ('"As you wish sire, I will stop tracking your face"')
-					#here we stop tracking
 		else :
 			if self.previous_orders == 1:
 				self.add_anger()
@@ -66,8 +66,8 @@ class AIController:
 				if self.anger_meter == 10:
 					return ('"NO!"')
 				else :
+					camera.set_tracking(1)
 					return('"Yes master, I will track you"')
-					#we begin tracking
 
 	def weather(self, order):
 		words = order.split(" ")
