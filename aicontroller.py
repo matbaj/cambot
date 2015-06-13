@@ -71,7 +71,11 @@ class AIController:
 
 	def weather(self, order):
 		words = order.split(" ")
-		city_index = words.index("in") + 1
+		try:
+                    city_index = words.index("in") + 1
+                except ValueError:
+                    print "Wrong syntax"
+                    return("No!")
 		if words[city_index] == "city":
 			city_index+=1
 		if words[-1] == "please":
