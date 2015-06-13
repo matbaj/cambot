@@ -26,6 +26,12 @@ class Camera:
         self.camera_y += int(val)
         self.set_x(self.camera_y)
 
-    def set_tracking(value):
+    def set_tracking(self,value):
         self.face_tracking = int(value)
 
+    #TODO
+    def show_no(self):
+        pass
+    
+    def show_yes(self):
+        pass
