@@ -1,4 +1,5 @@
 import pywapi
+import datetime
 
 class AIController:
 
@@ -23,6 +24,9 @@ class AIController:
 		if "check weather" in order:
 			rep.append(self.weather(order))
 
+		if "check time" in order:
+			rep.append(self.clock())
+
 		if "turn off" in order:
 			rep.append(self.turn_off())
 
@@ -33,6 +37,10 @@ class AIController:
 			rep.append(self.show_console())
 
 		return(rep)
+	def clock(self):
+		now = datetime.datetime.now()
+		now_str = ('hour: ' + now.hour + 'minute: ' + now.minut)
+		return(now_str)
 
 	def track(self, order):
 		before = order.find('track')
