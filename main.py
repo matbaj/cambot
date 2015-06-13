@@ -12,4 +12,13 @@ __builtin__.voice = VoiceResponse()
 __builtin__.camera = Camera()
 
 if __name__ == '__main__':
-    BotCMD().cmdloop()
+    botcmd = BotCMD()
+    try:
+        config = open('%s.conf' % sys.argv[1]) 
+    except IndexError:
+        config = open('default.conf')
+    for cmd in config.readlines():
+        if not cmd.startswith('#'):
+            botcmd.onecmd(cmd)
+    print "Confing loaded dropping to shell"
+    botcmd.cmdloop()
