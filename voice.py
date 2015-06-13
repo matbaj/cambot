@@ -10,8 +10,9 @@ class AIController:
 
 
 	def act(self, order):
+                rep = []
 		if "love you" in order:
-			self.relation(order)
+			rep.append(self.relation(order))
 
 		if "hello" in order: 
 			self.greet(order)
@@ -32,6 +33,8 @@ class AIController:
 
 		if "show_console" in order:
 			self.show_console()
+
+                return(rep)
 
 	def track(self, order):
 		before = order.find('track')
@@ -93,14 +96,14 @@ class AIController:
 		end = order.find('love')
 		if 'not' in order[:end]:
 			if self.anger_meter > 7:
-				self.call("hehehe")
+				return("hehehe")
 			else:
-				self.call("I am sad") 
+				return("I am sad")
 		else:
 			if self.anger_meter > 7:
-				self.call("NO")
+				return("NO")
 			else:
-				self.call("I too love myself")
+				return("I too love myself")
 
 	def get_city_id(self, d):
 		for key in d:
