@@ -1,12 +1,17 @@
 import pywapi
 import sys
 import datetime
+import imaplib
 
 class AIController:
 
 	def __init__(self):
 		self.previous_orders = 0
 		self.anger_meter = 0
+
+	def initMail(self, mail, password):
+		self.mail = mail
+		self.password = password
 
 	def act(self, order):
 		rep = []
@@ -22,13 +27,16 @@ class AIController:
 
 		# check between city : please
 		if "check weather" in order:
-			rep.append(self.weather(order))
+			rep.append(self.weather(-order))
 
 		if "check time" in order:
 			rep.append(self.clock())
 
 		if "turn off" in order:
 			rep.append(self.turn_off())
+
+		if "check mail" in order:
+			rep.append(self.check_mail())
 
 		return(rep)
 
@@ -94,6 +102,26 @@ class AIController:
 			print "Error: %s" % e 
 			print "Weather occurs some problems"
 			return("NO!")
+
+	def check_mail(self):
+		obj = imaplib.IMAP4_SSL('imap.gmail.com','993')
+		print self.mail
+		try:
+			obj.login(self.mail,self.password)
+		except:
+			print "Wrong email"
+			return ("No!")
+		obj.select('INBOX')
+		status, response = imap.search('INBOX', '(UNSEEN)')
+		unread_messages = response[0].split()
+
+		mails = []
+
+		for email_id in unread_messages:
+			_, response = imap.fetch(email_id, '(UID BODY[TEXT])')
+			mails.append(response[0][1])
+
+		return mails
 
 	def turn_off(self):
 		return('"turning off"')
