@@ -7,7 +7,6 @@ class AIController:
 		self.previous_orders = 0
 		self.anger_meter = 0
 
-
 	def act(self, order):
 		rep = []
 		if "love you" in order:
@@ -31,6 +30,7 @@ class AIController:
 			rep.append(self.turn_off())
 
 		return(rep)
+
 	def clock(self):
 		now = datetime.datetime.now()
 		now_str = ('hour: ' + str(now.hour) + ' minute: ' + str(now.minute))
@@ -85,7 +85,8 @@ class AIController:
 			self.add_please()
 			all_info = pywapi.get_weather_from_weather_com( city_id , units = 'metric' )
 			weather = all_info['current_conditions']['temperature'] 
-			weather_respone = ('Temperature: ' + weather + ' celsius degrees in ' + city)
+			text = all_info['current_conditions']['text']
+			weather_respone = ('It is ' + text + ', Temperature: ' + weather + ' celsius degrees in ' + city)
 			return(weather_respone)
 		except:
 			print "Weather occurs some problems"
