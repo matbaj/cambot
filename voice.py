@@ -14,7 +14,7 @@ class VoiceRecogniser:
         self.thread = self.recorder.listen_in_background(sr.Microphone(), self.callback)
 
     def stop(self):
-        
+        pass        
 
     def callback(self,recognizer, audio):                          # this is called from the background thread
         try:

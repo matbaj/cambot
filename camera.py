@@ -1,11 +1,11 @@
 from os import system
 
 class Camera:
-    def __init__():
+    def __init__(self):
         self.camera_x = 60
         self.camera_y = 80
-        set_x(camera_x)
-        set_y(camera_y)
+        self.set_x(self.camera_x)
+        self.set_y(self.camera_y)
         self.face_tracking = 0
 
     #controling camera
