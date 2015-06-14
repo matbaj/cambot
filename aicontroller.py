@@ -173,24 +173,21 @@ class AIController:
 			return "You have " + " - and after that ".join(result)
 		return "You have " + result[0]
 
-	def turn_off(self):
-		return('"turning off"')
-		#turn off
 
 	def relation(self, order):
 		end = order.find('love')
 		if 'not' in order[:end]:
 			if self.anger_meter > 7:
-				return("hehehe")
+				return("So what?!")
 			else:
 				self.add_anger()
-				return("I am sad")
+				return("You make me sad.")
 		else:
 			if self.anger_meter > 7:
-				return("NO")
+				return("NO!")
 			else:
 				self.add_please()
-				return("I too love myself")
+				return("I too love myself.")
 
 	def get_city_id(self, d):
 		for key in d:
