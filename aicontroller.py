@@ -12,15 +12,16 @@ from oauth2client import client
 from oauth2client import tools
 from oauth2client.file import Storage
 import dateutil.parser
+import re
 try:
 	import argparse
 	flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
 except ImportError:
 	flags = None
 
-SCOPES = 'https://www.googleapis.com/auth/calendar.readonly'
+SCOPES = 'https://www.googleapis.com/auth/calendar.readonly https://www.googleapis.com/auth/gmail.readonly'
 CLIENT_SECRET_FILE = 'client_secret.json'
-APPLICATION_NAME = 'Google Calendar API Quickstart'
+APPLICATION_NAME = 'cambot'
 
 
 class AIController:
@@ -126,24 +127,27 @@ class AIController:
 			return("NO!")
 
 	def check_mail(self):
-		obj = imaplib.IMAP4_SSL('imap.gmail.com','993')
-		print self.mail
-		try:
-			obj.login(self.mail,self.password)
-		except:
-			print "Wrong email"
-			return ("No!")
-		obj.select('INBOX')
-		status, response = imap.search('INBOX', '(UNSEEN)')
-		unread_messages = response[0].split()
+		credentials = self.get_credentials()
+                http = credentials.authorize(httplib2.Http())
+                service = discovery.build('gmail', 'v1', http=http)
+                response =  service.users().messages().list(userId="me",maxResults=5,q="is:unread").execute()
+                messages = []
+                if 'messages' in response:
+                    messages.extend(response['messages'])
+                result = "You have %d unreaded messages " % (len(messages))
+                result_arr = []
+                for m in messages:
+                    msg_txt= self.mail_get_detail(service, m.get('id')) 
+                    result_arr.append(msg_txt)
+                return result+" ".join(result_arr)
 
-		mails = []
-
-		for email_id in unread_messages:
-			_, response = imap.fetch(email_id, '(UID BODY[TEXT])')
-			mails.append(response[0][1])
-
-		return mails
+        def mail_get_detail(self,service,msg_id):
+            message = service.users().messages().get(userId='me', id=msg_id,format='raw').execute()
+            snippet = message['snippet']
+            p = re.compile(ur'\ \&lt;.*\&gt;')
+            result =   re.sub(p,'',snippet)
+            return result
+            
 
 	def check_calendar(self):
 		credentials = self.get_credentials()
@@ -163,12 +167,10 @@ class AIController:
                 result = []
                 
 		for event in events:
-                        #code.interact(local=locals())
 			start = event['start'].get('dateTime', event['start'].get('date'))
                         dt = dateutil.parser.parse(start)
                         dt_text =  dt.strftime('%A, %d %b %Y %l:%M %p')
                         event_text = "%s at %s " % (event['summary'], dt_text)
-                        print event_text
                         result.append(event_text)
                 
 		return "You have " + " - and after that ".join(result)
@@ -212,7 +214,7 @@ class AIController:
 		credential_dir = os.path.join(home_dir, '.credentials')
 		if not os.path.exists(credential_dir):
 			os.makedirs(credential_dir)
-		credential_path = os.path.join(credential_dir, 'calendar-quickstart.json')
+		credential_path = os.path.join(credential_dir, 'cambot-gapi.json')
 
 		store = Storage(credential_path)
 		credentials = store.get()
