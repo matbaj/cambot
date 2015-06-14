@@ -6,7 +6,7 @@ import imaplib
 import httplib2
 import os
 
-from apiclient import discovery
+from googleapiclient import discovery
 import oauth2client
 from oauth2client import client
 from oauth2client import tools
@@ -46,7 +46,7 @@ class AIController:
 
 		# check between city : please
 		if "check weather" in order:
-			rep.append(self.weather(-order))
+			rep.append(self.weather(order))
 
 		if "check time" in order:
 			rep.append(self.clock())
