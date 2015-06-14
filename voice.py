@@ -32,6 +32,7 @@ class VoiceRecogniser(threading.Thread):
     def process(self, audio):
         try:
             r = self.recogniser.recognize(audio)
+	    print "DEBUG: RECOGNISED: %s" % r
 	    self.callback(r)	
         except LookupError:
             print "Recognision Error" 

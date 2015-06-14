@@ -8,8 +8,8 @@ class BotCMD(cmd.Cmd):
     voice_response=0
     voice_recogniser=0
 
-    def do_greet(self, line):
-        print "hello"
+    def do_say(self, line):
+        voice.say(line)
 
     def do_set_voice(self,line):
         self.voice_response=int(line)
