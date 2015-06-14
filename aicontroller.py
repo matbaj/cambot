@@ -114,7 +114,7 @@ class AIController:
 			all_info = pywapi.get_weather_from_weather_com( city_id , units = 'metric' )
 			weather = all_info['current_conditions']['temperature'] 
 			text = all_info['current_conditions']['text']
-			weather_respone = ('It is' + text + ', Temperature: ' + weather  + ' celsius degrees in ' + city)
+			weather_respone = ('It is ' + text + ', Temperature: ' + weather  + ' celsius degrees in ' + city)
 			return(weather_respone)
 		except:
 			e = sys.exc_info()[0]
