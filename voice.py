@@ -3,7 +3,7 @@ import speech_recognition as sr
 
 class VoiceResponse:
 	def say(self, text):
-		subprocess.call("espeak \"%s\"" %(text), shell=True)
+		subprocess.call("espeak -g 3  \"%s\"" %(text), shell=True)
 
 class VoiceRecogniser:
     def __init__(lang="pl"):
