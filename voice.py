@@ -4,7 +4,7 @@ import threading
 
 class VoiceResponse:
 	def say(self, text):
-		subprocess.call("espeak \"%s\"" %(text), shell=True)
+		subprocess.call("espeak -g 3  \"%s\"" %(text), shell=True)
 
 class VoiceRecogniser(threading.Thread):
     def __init__(self,callback,lang="en-US"):

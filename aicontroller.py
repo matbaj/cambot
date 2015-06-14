@@ -114,7 +114,7 @@ class AIController:
 			all_info = pywapi.get_weather_from_weather_com( city_id , units = 'metric' )
 			weather = all_info['current_conditions']['temperature'] 
 			text = all_info['current_conditions']['text']
-			weather_respone = ('It is ' + text + ', Temperature: ' + weather + ' celsius degrees in ' + city)
+			weather_respone = ('It is ' + text + ', Temperature: ' + weather  + ' celsius degrees in ' + city)
 			return(weather_respone)
 		except:
 			e = sys.exc_info()[0]
@@ -124,26 +124,26 @@ class AIController:
 
 	def check_mail(self):
 		credentials = self.get_credentials()
-                http = credentials.authorize(httplib2.Http())
-                service = discovery.build('gmail', 'v1', http=http)
-                response =  service.users().messages().list(userId="me",maxResults=5,q="is:unread").execute()
-                messages = []
-                if 'messages' in response:
-                    messages.extend(response['messages'])
-                result = "You have %d unreaded messages " % (len(messages))
-                result_arr = []
-                for m in messages:
-                    msg_txt= self.mail_get_detail(service, m.get('id')) 
-                    result_arr.append(msg_txt)
-                return result+" ".join(result_arr)
+		http = credentials.authorize(httplib2.Http())
+		service = discovery.build('gmail', 'v1', http=http)
+		response =  service.users().messages().list(userId="me",maxResults=5,q="is:unread").execute()
+		messages = []
+		if 'messages' in response:
+			messages.extend(response['messages'])
+		result = "You have %d unreaded messages " % (len(messages))
+		result_arr = []
+		for m in messages:
+			msg_txt= self.mail_get_detail(service, m.get('id')) 
+			result_arr.append(msg_txt)
+		return result+" ".join(result_arr)
 
-        def mail_get_detail(self,service,msg_id):
-            message = service.users().messages().get(userId='me', id=msg_id,format='raw').execute()
-            snippet = message['snippet']
-            p = re.compile(ur'\ \&lt;.*\&gt;')
-            result =   re.sub(p,'',snippet)
-            return result
-            
+	def mail_get_detail(self,service,msg_id):
+		message = service.users().messages().get(userId='me', id=msg_id,format='raw').execute()
+		snippet = message['snippet']
+		p = re.compile(ur'\ \&lt;.*\&gt;')
+		result =   re.sub(p,'',snippet)
+		return result
+			
 
 	def check_calendar(self):
 		credentials = self.get_credentials()
@@ -156,19 +156,17 @@ class AIController:
 			calendarId='primary', timeMin=now, maxResults=10, singleEvents=True,
 			orderBy='startTime').execute()
 		events = eventsResult.get('items', [])
-
-
 		if not events:
 			return 'You have no upcoming events.'
-                result = []
-                
+		result = []
+				
 		for event in events:
 			start = event['start'].get('dateTime', event['start'].get('date'))
-                        dt = dateutil.parser.parse(start)
-                        dt_text =  dt.strftime('%A, %d %b %Y %l:%M %p')
-                        event_text = "%s at %s " % (event['summary'], dt_text)
-                        result.append(event_text)
-                
+			dt = dateutil.parser.parse(start)
+			dt_text =  dt.strftime('%A, %d %b %Y %l:%M %p')
+			event_text = "%s at %s " % (event['summary'], dt_text)
+			result.append(event_text)
+				
 		return "You have " + " - and after that ".join(result)
 
 	def turn_off(self):
