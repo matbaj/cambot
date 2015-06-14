@@ -6,12 +6,22 @@ class BotCMD(cmd.Cmd):
 
     prompt = "[BOT] >> "
     voice_response=0
+    voice_recogniser=0
 
     def do_greet(self, line):
         print "hello"
 
     def do_set_voice(self,line):
         self.voice_response=int(line)
+
+    def do_set_recogniser(self,line):
+	if int(line) == 0:
+		print "KNOWN BUG: You need to do last request to kill listener"
+		self.voice_recogniser=0
+		recogniser.stop()
+	else:
+		self.voice_recogniser=1
+		recogniser.start()
 
     def do_order(self,line):
         """Order command to ai"""
@@ -30,10 +40,19 @@ class BotCMD(cmd.Cmd):
         code.interact(local=locals())
     
     def do_EOF(self, line):
-        return True
+        return self.quit()
     def do_quit(self,line):
         """Quiting application"""
-        return True
+        return self.quit()
+
+    def quit(self):
+	if self.voice_recogniser == 1:
+		self.do_set_recogniser(0)
+	return True
+
+    def process_voice(self,text):
+	if self.voice_recogniser == 1:  #in case if we turn off voice recognision and it still listen
+		self.do_order(text)
 
     def emptyline(self):
         """Do not repeat last line"""

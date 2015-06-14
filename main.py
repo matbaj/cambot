@@ -6,13 +6,14 @@ from camera import *
 
 import __builtin__
 
+botcmd = BotCMD()
 __builtin__.VoiceResponse = VoiceResponse
 __builtin__.AI = AIController()
 __builtin__.voice = VoiceResponse()
 __builtin__.camera = Camera()
+__builtin__.recogniser = VoiceRecogniser(botcmd.process_voice)
 
 if __name__ == '__main__':
-    botcmd = BotCMD()
     try:
         config = open('%s.conf' % sys.argv[1]) 
     except IndexError:

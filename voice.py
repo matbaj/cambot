@@ -1,25 +1,34 @@
 import subprocess
 import speech_recognition as sr
+import threading
 
 class VoiceResponse:
 	def say(self, text):
 		subprocess.call("espeak \"%s\"" %(text), shell=True)
 
-class VoiceRecogniser:
-    def __init__(lang="pl"):
-        self.recorder = sr.Recognizer(language=lang)
-        self.thread = None
+class VoiceRecogniser(threading.Thread):
+    def __init__(self,callback,lang="en-US"):
+	super(VoiceRecogniser, self).__init__()
+        self.recogniser = sr.Recognizer(language=lang)
+        self.running =True
+	self.source = sr.Microphone()
+	self.callback= callback
 
-    def start(self):
-        self.thread = self.recorder.listen_in_background(sr.Microphone(), self.callback)
-
+    def run(self):
+	print "Recogniser started"
+	while self.running:
+		with self.source as s: audio = self.recogniser.listen(s)		
+		self.process(audio)
+	print "Recogniser stopped"
     def stop(self):
-        pass        
+        self.running=False        
 
-    def callback(self,recognizer, audio):                          # this is called from the background thread
+    def process(self, audio):
         try:
-            return(recognizer.recognize(audio))  # received audio data, now need to recognize it
+            r = self.recogniser.recognize(audio)
+	    self.callback(r)	
         except LookupError:
             print "Recognision Error" 
             return(-1)
+
 
