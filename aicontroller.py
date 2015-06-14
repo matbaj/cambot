@@ -130,7 +130,10 @@ class AIController:
 		messages = []
 		if 'messages' in response:
 			messages.extend(response['messages'])
-		result = "You have %d unreaded messages " % (len(messages))
+		if (len(messages)) > 1 :
+			result = "You have %d unreaded messages " % (len(messages))
+		else :
+			result = "You have %d unreaded message " % (len(messages))
 		result_arr = []
 		for m in messages:
 			msg_txt= self.mail_get_detail(service, m.get('id')) 
@@ -166,8 +169,9 @@ class AIController:
 			dt_text =  dt.strftime('%A, %d %b %Y %l:%M %p')
 			event_text = "%s at %s " % (event['summary'], dt_text)
 			result.append(event_text)
-				
-		return "You have " + " - and after that ".join(result)
+		if (len(result)) > 1 :
+			return "You have " + " - and after that ".join(result)
+		return "You have " + result[0]
 
 	def turn_off(self):
 		return('"turning off"')
