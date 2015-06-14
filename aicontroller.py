@@ -30,10 +30,6 @@ class AIController:
 		self.previous_orders = 0
 		self.anger_meter = 0
 
-	def initMail(self, mail, password):
-		self.mail = mail
-		self.password = password
-
 	def act(self, order):
 		rep = []
 		if "love you" in order:
