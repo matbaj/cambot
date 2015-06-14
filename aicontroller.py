@@ -5,12 +5,13 @@ import imaplib
 
 import httplib2
 import os
-
+import code
 from googleapiclient import discovery
 import oauth2client
 from oauth2client import client
 from oauth2client import tools
-
+from oauth2client.file import Storage
+import dateutil.parser
 try:
 	import argparse
 	flags = argparse.ArgumentParser(parents=[tools.argparser]).parse_args()
@@ -145,7 +146,7 @@ class AIController:
 		return mails
 
 	def check_calendar(self):
-		credentials = get_credentials()
+		credentials = self.get_credentials()
 		http = credentials.authorize(httplib2.Http())
 		service = discovery.build('calendar', 'v3', http=http)
 
@@ -156,14 +157,21 @@ class AIController:
 			orderBy='startTime').execute()
 		events = eventsResult.get('items', [])
 
-		result = []
 
 		if not events:
-			print 'No upcoming events found.'
+			return 'You have no upcoming events.'
+                result = []
+                
 		for event in events:
+                        #code.interact(local=locals())
 			start = event['start'].get('dateTime', event['start'].get('date'))
-			result.append(start + event['summary'])
-		return result
+                        dt = dateutil.parser.parse(start)
+                        dt_text =  dt.strftime('%A, %d %b %Y %l:%M %p')
+                        event_text = "%s at %s " % (event['summary'], dt_text)
+                        print event_text
+                        result.append(event_text)
+                
+		return "You have " + " - and after that ".join(result)
 
 	def turn_off(self):
 		return('"turning off"')
@@ -206,7 +214,7 @@ class AIController:
 			os.makedirs(credential_dir)
 		credential_path = os.path.join(credential_dir, 'calendar-quickstart.json')
 
-		store = oauth2client.file.Storage(credential_path)
+		store = Storage(credential_path)
 		credentials = store.get()
 		if not credentials or credentials.invalid:
 			flow = client.flow_from_clientsecrets(CLIENT_SECRET_FILE, SCOPES)
