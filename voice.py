@@ -1,10 +1,16 @@
 import subprocess
 import speech_recognition as sr
 import threading
+import re
+
 
 class VoiceResponse:
 	def say(self, text):
-		subprocess.call("espeak -g 3  \"%s\"" %(text), shell=True)
+		p = re.compile(ur'\.')
+		subst = u"<break time='1s'/>"
+		result = re.sub(p, subst, text)
+		cmd = "espeak -m  \"%s\"" %(result)
+		subprocess.call(cmd, shell=True)
 
 class VoiceRecogniser(threading.Thread):
     def __init__(self,callback,lang="en-US"):
