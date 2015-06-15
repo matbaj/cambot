@@ -62,7 +62,7 @@ scx = 60
 scy = 80
 
 currentsx = scx
-
+currentsy = scy
 cascPath = sys.argv[1]
 faceCascade = cv2.CascadeClassifier(cascPath)
 
@@ -100,6 +100,17 @@ while True:
             if currentsx >30:
                 currentsx-=serwo_speed
                 set_x(currentsx)
+	if Y<ay:
+	    print "gora:%d" % (ay-Y)
+	    if currentsy <90:
+		currentsy+=serwo_speed/2
+		set_y(currentsy)
+	if Y>cy:
+	    print "dol:%d" % (Y-cy)
+	    if currentsy > 30:
+		currentsy-=serwo_speed/2
+		set_y(currentsy)
+
         cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
 
     # Display the resulting frame

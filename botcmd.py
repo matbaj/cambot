@@ -7,6 +7,7 @@ class BotCMD(cmd.Cmd):
     prompt = "[BOT] >> "
     voice_response=0
     voice_recogniser=0
+    camera=0
 
     def do_say(self, line):
         voice.say(line)
@@ -22,6 +23,14 @@ class BotCMD(cmd.Cmd):
 	else:
 		self.voice_recogniser=1
 		recogniser.start()
+
+    def do_set_camera(self,line):
+        if int(line) == 0:
+                self.camera=0
+                camera.stop()
+        else:
+                self.camera=1
+                camera.start()
 
     def do_order(self,line):
         """Order command to ai"""
