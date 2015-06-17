@@ -35,28 +35,34 @@ class AIController:
 		if "love you" in order:
 			rep.append(self.relation(order))
 
-		if "hello" in order: 
+		else if "hello" in order: 
 			rep.append(self.greet(order))
 
 		# check if there is do not before track 
-		if "track faces" in order :
+		else if "track faces" in order :
 			rep.append(self.track(order))
 
 		# check between city : please
-		if "check weather" in order:
+		else if "check weather" in order:
 			rep.append(self.weather(order))
 
-		if "check time" in order:
+		else if "check time" in order:
 			rep.append(self.clock())
 
-		if "turn off" in order:
+		else if "turn off" in order:
 			rep.append(self.turn_off())
 
-		if "check mail" in order:
+		else if "check mail" in order:
 			rep.append(self.check_mail())
 
-		if "check calendar" in order:
+		else if "check calendar" in order:
 			rep.append(self.check_calendar())
+
+		else 
+			self.add_anger()
+			camera.show_no()
+
+
 		return(rep)
 
 	def clock(self):
