@@ -27,7 +27,7 @@ APPLICATION_NAME = 'cambot'
 class AIController:
 
 	def __init__(self):
-		self.previous_orders = 0
+		self.previous_orders = 1
 		self.anger_meter = 0
 
 	def act(self, order):
@@ -35,30 +35,30 @@ class AIController:
 		if "love you" in order:
 			rep.append(self.relation(order))
 
-		else if "hello" in order: 
+		elif "hello" in order: 
 			rep.append(self.greet(order))
 
 		# check if there is do not before track 
-		else if "track faces" in order :
+		elif "track faces" in order :
 			rep.append(self.track(order))
 
 		# check between city : please
-		else if "check weather" in order:
+		elif "check weather" in order:
 			rep.append(self.weather(order))
 
-		else if "check time" in order:
+		elif "check time" in order:
 			rep.append(self.clock())
 
-		else if "turn off" in order:
+		elif "turn off" in order:
 			rep.append(self.turn_off())
 
-		else if "check mail" in order:
+		elif "check mail" in order:
 			rep.append(self.check_mail())
 
-		else if "check calendar" in order:
+		elif "check calendar" in order:
 			rep.append(self.check_calendar())
 
-		else 
+		else:
 			self.add_anger()
 			camera.show_no()
 
@@ -73,29 +73,29 @@ class AIController:
 	def track(self, order):
 		before = order.find('track')
 		if "do not" in order[:before]:
-			if self.previous_orders == 0:
+			if camera.face_tracking == 0:
 				self.add_anger()
-				return ('"But I am not tracking you, master"')
+				return ('But I am not tracking you, master')
 			else:
-				self.previous_orders = 0
+				camera.face_tracking = 0
 				self.add_please()
 				if self.anger_meter > 7:
-					return ('"NO!"')
+					return ('NO!')
 				else :
 					camera.set_tracking(0)
-					return ('"As you wish sire, I will stop tracking your face"')
+					return ('As you wish sire, I will stop tracking your face')
 		else :
-			if self.previous_orders == 1:
+			if camera.face_tracking == 1:
 				self.add_anger()
-				return('"I am already tracking you"')
+				return('I am already tracking you')
 			else:
-				self.previous_orders = 1
+				camera.face_tracking = 1
 				self.add_please()
 				if self.anger_meter == 10:
-					return ('"NO!"')
+					return ('NO!')
 				else :
 					camera.set_tracking(1)
-					return('"Yes master, I will track you"')
+					return('Yes master, I will track you')
 
 	def weather(self, order):
 		words = order.split(" ")
